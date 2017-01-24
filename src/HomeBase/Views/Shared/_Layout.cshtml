@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HomeBase</title>
+    <title>@ViewData["Title"] - Home Base</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,13 +26,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">HomeBase</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Home Base</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Players" asp-action="Index">Players</a></li>
+                    <li><a asp-area="" asp-controller="Team Roster" asp-action="Index">Team Roster</a></li>
+                    <li><a asp-area="" asp-controller="Enrollment" asp-action="Index">Sign up for a Team</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -42,7 +45,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - HomeBase</p>
+            <p>&copy; 2017 - Home Base</p>
         </footer>
     </div>
 

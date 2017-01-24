@@ -1,11 +1,12 @@
-﻿{
-  "userSecretsId": "aspnet-HomeBase-91d47dd9-bd9a-44ea-af2d-d567a7b99032",
+{
+  "userSecretsId": "aspnet-HomeBase-ec95b87e-8c81-4b31-a34a-d872966d6a47",
 
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
       "type": "platform"
     },
+    "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
