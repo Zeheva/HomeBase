@@ -1,1 +1,3 @@
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro
+
+On Page two, Update the create page

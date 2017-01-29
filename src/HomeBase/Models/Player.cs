@@ -17,6 +17,7 @@ namespace HomeBase.Models
         public string Experience { get; set; }
         public string TeamRequested { get; set; }
         public DateTime EnrollmentDate { get; set;}
+      
         public Team Team { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }

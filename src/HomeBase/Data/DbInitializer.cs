@@ -36,7 +36,7 @@ namespace HomeBase.Models
             }
             context.SaveChanges();
 
-            var Teams = new Team[]
+            var teams = new Team[]
             {
             new Team{TeamID=1050,TeamName="Chemistry",},
             new Team{TeamID=4022,TeamName="Microeconomics",},
@@ -47,7 +47,7 @@ namespace HomeBase.Models
             new Team{TeamID=2042,TeamName="Literature",}
             };       
 
-            foreach (Team t in Teams)
+            foreach (Team t in teams)
             {
                 context.Teams.Add(t);
             }

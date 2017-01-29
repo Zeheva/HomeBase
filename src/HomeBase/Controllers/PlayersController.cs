@@ -18,7 +18,7 @@ namespace HomeBase.Controllers
 
         public PlayersController(HomeBaseContext context)
         {
-            _context = context;    
+            _context = context; 
         }
 
         // GET: Players
@@ -36,11 +36,12 @@ namespace HomeBase.Controllers
             {
                 return NotFound();
             }
-            //pulled await off from 
+            //added second line for work on details page
             var player = await _context.Players
                 .Include(s => s.Enrollments)
-                .ThenInclude( e => e.Team).AsNoTracking()
-                .SingleOrDefault(m => m.PlayerID ==id);
+                .ThenInclude(e => e.Team)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.PlayerID ==id);
             if (player == null)
             {
                 return NotFound();
