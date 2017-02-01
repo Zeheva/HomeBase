@@ -18,7 +18,7 @@ namespace HomeBase.Controllers
 
         public PlayersController(HomeBaseContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         // GET: Players
@@ -41,7 +41,7 @@ namespace HomeBase.Controllers
                 .Include(s => s.Enrollments)
                 .ThenInclude(e => e.Team)
                 .AsNoTracking()
-                .SingleOrDefaultAsync(m => m.PlayerID ==id);
+                .SingleOrDefaultAsync(m => m.PlayerID == id);
             if (player == null)
             {
                 return NotFound();
@@ -61,13 +61,24 @@ namespace HomeBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PlayerID,Address,Email,EnrollmentDate,Experience,FirstName,LastName,PhoneNumber,Position,TeamRequested")] Player player)
+        public async Task<IActionResult> Create(
+            [Bind("Address,Email,EnrollmentDate,Experience,FirstName,LastName,PhoneNumber,Position,TeamRequested")] Player player)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(player);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _context.Add(player);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+          
+            }
+
+            catch (DbUpdateException /* ex */)// fix to log error
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+                   "Try again, and if the problem persists " + "see your system Admin.");
             }
             return View(player);
         }
@@ -91,52 +102,60 @@ namespace HomeBase.Controllers
         // POST: Players/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PlayerID,Address,Email,EnrollmentDate,Experience,FirstName,LastName,PhoneNumber,Position,TeamRequested")] Player player)
-        {
-            if (id != player.PlayerID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(player);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PlayerExists(player.PlayerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(player);
-        }
-
-        // GET: Players/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> EditPost(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var player = await _context.Players.SingleOrDefaultAsync(m => m.PlayerID == id);
+            var studentToUpdate = await _context.Players.SingleOrDefaultAsync(p => p.PlayerID == id);
+
+            if (await TryUpdateModelAsync<Player>(studentToUpdate, "",
+                p => p.FirstName, p => p.LastName, p => p.Email, p => p.PhoneNumber,
+                p => p.Address, p => p.Position, p => p.Experience, p => p.TeamRequested, p => p.EnrollmentDate,
+                p => p.Team))
+            {
+                try
+                {
+                    
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+                
+            }
+            return View(studentToUpdate);
+        }
+
+        // GET: Players/Delete/5
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var player = await _context.Players
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.PlayerID == id);
             if (player == null)
             {
                 return NotFound();
             }
 
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] = "Delete Failed. Try again, if the problem persists " +
+                    "you have failed at life and may not want to go on.";
+            }
             return View(player);
         }
 
@@ -145,10 +164,25 @@ namespace HomeBase.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var player = await _context.Players.SingleOrDefaultAsync(m => m.PlayerID == id);
-            _context.Players.Remove(player);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var player = await _context.Players
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.PlayerID == id);
+            if(player == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                _context.Players.Remove(player);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            catch(DbUpdateException /* ex */)
+            {
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
         }
 
         private bool PlayerExists(int id)
