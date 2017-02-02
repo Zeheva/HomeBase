@@ -1,3 +1,5 @@
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro
 
 On Page three, Start of page
+
+working on the paginatedlist in the index.cshtml changed out the list @model and broke everything...

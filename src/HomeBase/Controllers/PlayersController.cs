@@ -22,11 +22,53 @@ namespace HomeBase.Controllers
         }
 
         // GET: Players
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, 
+            string searchString, int? page)//issues with sorting need to fix
         {
-            //Ralphnotes
-            //TempData["PlayerData"]=
-            return View(await _context.Players.ToListAsync());
+
+
+            ViewData["CurrentSort"] = sortOrder; //seachfilter not working get or GET? maybe on index.cshml
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var players = from p in _context.Players select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                players = players.Where(p => p.LastName.Contains(searchString)
+                || p.FirstName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    players = players.OrderByDescending(p => p.LastName);
+                    break;
+                case "Date":
+                    players = players.OrderBy(p => p.EnrollmentDate);
+                    break;
+                case "date_desc":
+                    players = players.OrderByDescending(p => p.EnrollmentDate);
+                    break;
+                default:
+                    players = players.OrderBy(p => p.LastName);
+                    break;
+            }
+
+
+            int pageSize = 3;
+            return View(await PaginatedList<Player>.CreateAsync(players.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Players/Details/5
@@ -111,9 +153,9 @@ namespace HomeBase.Controllers
                 return NotFound();
             }
 
-            var studentToUpdate = await _context.Players.SingleOrDefaultAsync(p => p.PlayerID == id);
+            var playerToUpdate = await _context.Players.SingleOrDefaultAsync(p => p.PlayerID == id);
 
-            if (await TryUpdateModelAsync<Player>(studentToUpdate, "",
+            if (await TryUpdateModelAsync<Player>(playerToUpdate, "",
                 p => p.FirstName, p => p.LastName, p => p.Email, p => p.PhoneNumber,
                 p => p.Address, p => p.Position, p => p.Experience, p => p.TeamRequested, p => p.EnrollmentDate,
                 p => p.Team))
@@ -132,7 +174,7 @@ namespace HomeBase.Controllers
                 }
                 
             }
-            return View(studentToUpdate);
+            return View(playerToUpdate);
         }
 
         // GET: Players/Delete/5
