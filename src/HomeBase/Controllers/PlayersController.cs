@@ -67,7 +67,7 @@ namespace HomeBase.Controllers
             }
 
 
-            int pageSize = 3;
+            int pageSize = 10;
             return View(await PaginatedList<Player>.CreateAsync(players.AsNoTracking(), page ?? 1, pageSize));
         }
 
