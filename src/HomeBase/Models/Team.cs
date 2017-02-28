@@ -10,7 +10,7 @@ namespace HomeBase.Models
 {
     public class Team
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+       // [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
         public int TeamID { get; set; }
 
@@ -19,14 +19,14 @@ namespace HomeBase.Models
 
         public int? CaptainID { get; set; }
 
-        public Captain Captain {get;set;} 
+        public virtual Captain Captain {get;set;} 
 
-        public ICollection<Player> Players { get; set; }
+        public virtual ICollection<Player> Players { get; set; }
         
         //need to look how this relates to the program 
         //public Department Department { get; set; }
 
-        public ICollection<Enrollment> Enrollments { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
 
         //need to build the team assignemnts class
         //public ICollection<TeamAssignments> Assignments { get; set; }

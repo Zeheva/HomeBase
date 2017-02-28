@@ -22,11 +22,11 @@ namespace HomeBase.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
-            modelBuilder.Entity<Player>().ToTable("Player");
-            modelBuilder.Entity<Team>().ToTable("Team");
-            modelBuilder.Entity<Captain>().ToTable("Captain");
-            modelBuilder.Entity<TeamAssignment>().ToTable("TeamAssignment");
+            modelBuilder.Entity<Enrollment>().ToTable("Enrollment", "Admin");
+            modelBuilder.Entity<Player>().ToTable("Player", "User");
+            modelBuilder.Entity<Team>().ToTable("Team", "User");
+            modelBuilder.Entity<Captain>().ToTable("Captain", "Admin");
+            modelBuilder.Entity<TeamAssignment>().ToTable("TeamAssignment","Admin");
             //Composite primary key from two FK
             modelBuilder.Entity<TeamAssignment>().HasKey(t => new { t.TeamID, t.CaptainID });
         }
