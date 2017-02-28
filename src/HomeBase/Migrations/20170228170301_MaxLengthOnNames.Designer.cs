@@ -8,9 +8,10 @@ using HomeBase.Data;
 namespace HomeBase.Migrations
 {
     [DbContext(typeof(HomeBaseContext))]
-    partial class HomeBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170228170301_MaxLengthOnNames")]
+    partial class MaxLengthOnNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

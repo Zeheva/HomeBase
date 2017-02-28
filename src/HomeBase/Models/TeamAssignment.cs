@@ -9,7 +9,7 @@ namespace HomeBase.Models
     {
         public int CaptainID { get; set; }
         public int TeamID { get; set; }
-        public Captain Captain { get; set; }
-        public Team Team { get; set; }
+        public virtual Captain Captain { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

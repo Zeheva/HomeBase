@@ -1,4 +1,3 @@
 https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro
 
-Did not complete Db migrations on change for player class attributes (Page 5?)
-
+need to create the captains/teams paes more related data""

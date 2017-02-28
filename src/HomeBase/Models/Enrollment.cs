@@ -12,14 +12,14 @@ namespace HomeBase.Models
         public int EnrollmentID { get; set; }
 
         public int PlayerID { get; set; }
-        public Player Player { get; set; }
+        public virtual Player Player { get; set; }
 
         //single team (so team ID FK) Team Team (Navigaion)
         public int TeamID { get; set; }
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
 
         [DisplayFormat(NullDisplayText = "No Position")]
-        public Position? Position { get; set; }
+        public virtual Position? Position { get; set; }
         //changed from Player based on Player controller action method Details for .include
         
       

@@ -11,12 +11,12 @@ namespace HomeBase.Models
     {
         public int CaptainID { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Last Name")]
         [StringLength(50)]
         public string LastName { get; set; }   
         
-        [Required]
+        //[Required]
         [StringLength(50)]
         public string FirstName { get; set; }
 
@@ -31,10 +31,10 @@ namespace HomeBase.Models
             get { return LastName + ", " + FirstName; }
 
         }
-
+        [DisplayFormat(NullDisplayText = "No Team Assignment")]
         public Team Team { get; set; }
 
-
+        //if we want him to have more then one team to captain?
         //public ICollection<Team> Teams { get; set; }
        
 

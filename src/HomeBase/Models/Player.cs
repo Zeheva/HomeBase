@@ -10,12 +10,12 @@ namespace HomeBase.Models
     {
         public int PlayerID { get; set; }
 
-        [Required]
+        //[Required]
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$", ErrorMessage = "Ensure first letter is Caplized and all letters only")]
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string FirstName { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string LastName { get; set; }
 
@@ -31,9 +31,9 @@ namespace HomeBase.Models
         [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EnrollmentDate { get; set;}
       
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; } 
 
-        public ICollection<Enrollment> Enrollments { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
 
         
 
