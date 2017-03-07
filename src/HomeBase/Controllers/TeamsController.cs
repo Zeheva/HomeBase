@@ -22,7 +22,12 @@ namespace HomeBase.Controllers
         // GET: Teams
         public async Task<IActionResult> Index()
         {
-            var homeBaseContext = _context.Teams.Include(t => t.Captain);
+            var homeBaseContext = _context.Teams
+                .Include(t => t.Captain)
+                .Include(t => t.Players)
+               
+                
+                .AsNoTracking();
             return View(await homeBaseContext.ToListAsync());
             //check related data
             //var teams = _context.Teams
